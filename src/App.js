@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import './App.css';
 import Form from './components/Form';
 import Recipes from './components/Recipes';
-
 // import recipe from './data/recipe.json';
 
 const API_Key="83ba50fdaa4216b3496cbf372dd6343b";
@@ -22,6 +21,17 @@ class App extends Component {
     console.log(this.state.recipes);
  }
 
+  componentDidMount = () => {
+      const json=localStorage.getItem("recipes");
+      const recipes=JSON.parse(json);
+      this.setState({recipes});
+  } 
+
+  componentDidUpdate =(prevProps,prevState) => {
+    const recipes=JSON.stringify(this.state.recipes);
+    localStorage.setItem("recipes",recipes);
+  }
+
   render() {
     return (
       <div className="App">
@@ -30,7 +40,6 @@ class App extends Component {
         </header>
         <Form getRecipe={this.getRecipe}/>
         <Recipes recipes={this.state.recipes}/>
-         
       </div>
     );
   }
